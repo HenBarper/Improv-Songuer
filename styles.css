@@ -1,0 +1,46 @@
+body
+{
+  text-align: center;
+}
+
+button
+{
+  margin: 1rem 0.5rem;
+}
+
+.red
+{
+  background-color: #FF0000;
+}
+.red-orange
+{
+  background-color: #FF8000;
+}
+.orange
+{
+  background-color : #FFBF00;
+}
+.yellow
+{
+  background-color: #ECFF00;
+}
+.green
+{
+  background-color: #40FF00;
+}
+.play-green
+{
+  background-color: #40FF00;
+}
+.play-purple
+{
+  background-color: #9F00FF;
+}
+.play-blue
+{
+  background-color: #00F9FF;
+}
+.pressed
+{
+  background-color: gray;
+}

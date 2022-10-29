@@ -2,6 +2,7 @@ var numberOfButtons = document.querySelectorAll("button").length;
 var onDeck = "none";
 var currentlyPlaying = "none";
 var miliSeconds = 0;
+var eventCounter = 0;
 
 for (var i = 0; i < numberOfButtons; i++)
 {
@@ -10,49 +11,29 @@ for (var i = 0; i < numberOfButtons; i++)
     var buttonInnerHTML = this.innerHTML;
 
     checkKeys(buttonInnerHTML);
-    //buttonAnimation(buttonInnerHTML);
   });
 }
 
 function checkKeys(key)
 {
   var buttonInnerHTML = this.innerHTML;
-  //var audioElement = document.getElementById(buttonInnerHTML);
-  //console.log(key);
-  switch (key) {
+  switch (key)
+  {
     case "Intro":
-      /*var intro = new Audio('clips/irish clips/1 Irish Intro.mp3');
-      intro.play();*/
       Stop();
-      //audioElement.currentTime = 0;
-      //audioElement.play();
-      document.getElementById('Intro').currentTime = 0;
-      document.getElementById('Intro').play();
-      buttonPlay("Intro");
+      PlayIntro();
     break;
     case "Aidie-Daidie":
-      /*var aidie = new Audio('clips/irish clips/2 Irish Aidie Daidie Longer.mp3');
-      aidie.play();*/
       Stop();
-      document.getElementById('Aidie-Daidie').currentTime = 0;
-      document.getElementById('Aidie-Daidie').play();
-      buttonPlay("Aidie-Daidie");
+      PlayAidieDaidie();
     break;
     case "Verse":
-      /*var verse = new Audio('clips/irish clips/3 Irish Verse Longer.mp3');
-      verse.play();*/
       Stop();
-      document.getElementById('Verse').currentTime = 0;
-      document.getElementById('Verse').play();
-      buttonPlay("Verse");
+      PlayVerse();
     break;
     case "Outro":
-      /*var outro = new Audio('clips/irish clips/4 Irish Outro.mp3');
-      outro.play();*/
       Stop();
-      document.getElementById('Outro').currentTime = 0;
-      document.getElementById('Outro').play();
-      buttonPlay("Outro");
+      PlayOutro();
     break;
     case "Stop":
     console.log("clicked stop");
@@ -74,7 +55,9 @@ function buttonAnimation(currentKey)
 
 function buttonPlay(currentKey)
 {
+  eventCounter +=1;
   var activeButton = document.querySelector("." + currentKey);
+  var currentEventCounter = eventCounter;
   miliSeconds = 0;
   if(currentKey == "Intro")
   {
@@ -94,10 +77,24 @@ function buttonPlay(currentKey)
   }
   activeButton.classList.add("play-green");
   setTimeout(function(){
+    if(eventCounter == currentEventCounter)
+    {
+      activeButton.classList.remove("play-green");
+      if(currentKey == "Aidie-Daidie")
+      {
+        Stop();
+        PlayVerse();
+      }
+      else if(currentKey == "Verse")
+      {
+        Stop();
+        PlayAidieDaidie();
+      }
+    }
   }, miliSeconds);
-
 }
 
+// -------------------------------------- STOP PLAYBACK ------------------------------------------------
 function Stop()
 {
   onDeck = "none";
@@ -107,15 +104,62 @@ function Stop()
   {
     document.querySelectorAll('audio')[i].pause();
   }
+  WhiteButtons();
+  //currentAudiodocument.querySelectorAll('audio').forEach(el => el.pause());
+}
+// -------------------------------------- STOP PLAYBACK END ------------------------------------------------
 
+
+// -------------------------------------- TURN BUTTONS WHITE ------------------------------------------------
+function WhiteButtons()
+{
   for (var i = 0; i < numberOfButtons; i++)
   {
     document.querySelectorAll("button")[i].classList.remove("play-green");
     document.querySelectorAll("button")[i].classList.remove("play-purple");
     document.querySelectorAll("button")[i].classList.remove("play-blue");
   }
-  //currentAudiodocument.querySelectorAll('audio').forEach(el => el.pause());
 }
+// -------------------------------------- TURN BUTTONS WHITE END ------------------------------------------------
+
+
+//----------------------------------------- PLAY SONG SEGMENT FUNCTIONS --------------------------------------------
+function PlayIntro()
+{
+  document.getElementById('Intro').currentTime = 0;
+  document.getElementById('Intro').play();
+  currentlyPlaying = "Intro";
+  onDeck = "none";
+  buttonPlay("Intro");
+}
+function PlayAidieDaidie()
+{
+  document.getElementById('Aidie-Daidie').currentTime = 0;
+  document.getElementById('Aidie-Daidie').play();
+  buttonPlay("Aidie-Daidie");
+  currentlyPlaying = "Aidie-Daidie";
+  onDeck = "Verse";
+}
+function PlayVerse()
+{
+  document.getElementById('Verse').currentTime = 0;
+  document.getElementById('Verse').play();
+  buttonPlay("Verse");
+  currentlyPlaying = "Verse";
+  onDeck = "Aidie-Daidie";
+}
+function PlayOutro()
+{
+  document.getElementById('Outro').currentTime = 0;
+  document.getElementById('Outro').play();
+  currentlyPlaying = "Outro";
+  onDeck = "none";
+  buttonPlay("Outro");
+}
+// ----------------------------------------- PLAY SONG SEGMENT FUNCTIONS END--------------------------------------------
+
+
+
 
 
 

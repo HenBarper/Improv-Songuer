@@ -93,13 +93,9 @@ function buttonPlay(currentKey)
     miliSeconds = 14969.646;
   }
   activeButton.classList.add("play-green");
-  setTimeout(function()
-  {
-    if(currentlyPlaying == )
-    {
-      activeButton.classList.remove("play-green");
-    }
+  setTimeout(function(){
   }, miliSeconds);
+
 }
 
 function Stop()
